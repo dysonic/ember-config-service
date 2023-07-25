@@ -6,9 +6,11 @@ Get values from your app's `config/environment.js` with a service.
 
 ## Compatibility
 
-* Ember.js v3.4 or above
-* Ember CLI v2.13 or above
-* Node.js v8 or above
+- Ember.js v4.4 or above
+- Ember CLI v4.4 or above
+- Node.js v16 or above
+
+Note: V2 is a breaking change as it switches to Ember v4 and Octane Syntax.
 
 ## Usage
 
@@ -18,25 +20,29 @@ Install this addon by running the following with [Ember CLI](http://www.ember-cl
 
 The `config` service is now available for you to use in your app. For example, if you added the following to your `config/environment.js`:
 
-``` javascript
+```javascript
 ENV.api = {
-  host: 'http://mydomain.com',
-  namespace: 'myapi'
+  host: "http://mydomain.com",
+  namespace: "myapi",
 };
 ```
 
 You could define your application adapter with the following:
 
-``` javascript
-import Ember from 'ember';
-import DS from 'ember-data';
+```javascript
+import JSONAPIAdapter from "@ember-data/adapter/json-api";
+import { inject as service } from "@ember/service";
 
-export default DS.JSONAPIAdapter.extend({
-  config: Ember.inject.service(),
+export default class FooAdapter extends JSONAPIAdapter {
+  @service config;
 
-  host: Ember.computed.alias('config.api.host'),
-  namespace: Ember.computed.alias('config.api.namespace')
-});
+  get host() {
+    return this.config.api.host;
+  }
+  get namespace() {
+    return this.config.api.namespace;
+  }
+}
 ```
 
 ## Contributing

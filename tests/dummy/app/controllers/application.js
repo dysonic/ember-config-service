@@ -1,10 +1,6 @@
 import Controller from '@ember/controller';
-import { inject } from '@ember/service';
+import { inject as service } from '@ember/service';
 
-const {
-  service
-} = inject;
-
-export default Controller.extend({
-  config: service()
-});
+export default class ApplicationController extends Controller {
+  @service config;
+}
